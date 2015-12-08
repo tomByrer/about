@@ -1,23 +1,13 @@
-{CompositeDisposable} = require 'atom'
+AboutURI = 'atom://about'
 
-AboutView = null
+module.exports =
+  subscription: null
 
-aboutURI = 'atom://about'
-
-createAboutView = (state) ->
-  AboutView ?= require './about-view'
-  new AboutView(state)
-
-atom.deserializers.add
-  name: 'AboutView'
-  deserialize: (state) -> createAboutView(state)
-
-module.exports = About =
   activate: ->
-    @subscriptions = new CompositeDisposable
-
-    @subscriptions.add atom.workspace.addOpener (uriToOpen) ->
-      createAboutView(uri: uriToOpen) if uriToOpen is aboutURI
+    @subscription = atom.workspace.addOpener (uriToOpen) ->
+      if uriToOpen is AboutURI
+        createAboutView = require './about-view'
+        createAboutView(uri: uriToOpen)
 
   deactivate: ->
-    @subscriptions.dispose()
+    @subscription.dispose()

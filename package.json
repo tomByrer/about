@@ -15,5 +15,8 @@
   },
   "devDependencies": {
     "coffeelint": "^1.9.7"
+  },
+  "deserializers": {
+    "AboutView": "./lib/about-view"
   }
 }
